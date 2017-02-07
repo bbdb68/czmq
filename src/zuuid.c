@@ -45,7 +45,7 @@ zuuid_new (void)
     //  Windows always has UUID support
     UUID uuid;
     assert (sizeof (uuid) == ZUUID_LEN);
-    UuidCreate (&uuid);
+    //UuidCreate (&uuid);
     zuuid_set (self, (byte *) &uuid);
 #elif defined (HAVE_UUID)
     uuid_t uuid;

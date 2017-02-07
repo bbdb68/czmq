@@ -130,6 +130,7 @@ zsys_init (void)
         return s_process_ctx;
     }
     //  Pull process defaults from environment
+	/*
     if (getenv ("ZSYS_IO_THREADS"))
         s_io_threads = atoi (getenv ("ZSYS_IO_THREADS"));
 
@@ -174,7 +175,7 @@ zsys_init (void)
 
     if (getenv ("ZSYS_AUTO_USE_FD"))
         s_auto_use_fd = atoi (getenv ("ZSYS_AUTO_USE_FD"));
-
+		*/
     zsys_catch_interrupts ();
 
     ZMUTEX_INIT (s_mutex);
@@ -194,6 +195,7 @@ zsys_init (void)
 #endif
     s_initialized = true;
 
+	/*
     //  The following functions call zsys_init(), so they MUST be called after
     //  s_initialized is set in order to avoid an infinite recursion
     if (getenv ("ZSYS_INTERFACE"))
@@ -213,7 +215,7 @@ zsys_init (void)
 
     if (getenv ("ZSYS_LOGSENDER"))
         zsys_set_logsender (getenv ("ZSYS_LOGSENDER"));
-
+		*/
     zsys_set_max_msgsz (s_max_msgsz);
 
     return s_process_ctx;
@@ -485,7 +487,7 @@ zsys_handler_set (zsys_handler_fn *handler_fn)
 #elif defined (__WINDOWS__)
         installed_handler_fn = handler_fn;
         if (s_first_time) {
-            SetConsoleCtrlHandler (s_handler_fn_shim, TRUE);
+            //SetConsoleCtrlHandler (s_handler_fn_shim, TRUE);
             s_first_time = false;
         }
 #else
@@ -513,7 +515,7 @@ zsys_handler_reset (void)
     }
 #elif defined (__WINDOWS__)
     if (handle_signals && !s_first_time) {
-        SetConsoleCtrlHandler (s_handler_fn_shim, FALSE);
+        //SetConsoleCtrlHandler (s_handler_fn_shim, FALSE);
         installed_handler_fn = NULL;
         s_first_time = true;
     }
@@ -529,10 +531,12 @@ void
 zsys_catch_interrupts (void)
 {
     //  Catch SIGINT and SIGTERM unless ZSYS_SIGHANDLER=false
-    if ((getenv ("ZSYS_SIGHANDLER") == NULL
-    ||   strneq (getenv ("ZSYS_SIGHANDLER"), "false"))
-    &&   handle_signals)
-        zsys_handler_set (s_signal_handler);
+    //if ((getenv ("ZSYS_SIGHANDLER") == NULL
+    //||   strneq (getenv ("ZSYS_SIGHANDLER"), "false"))
+    //&&   handle_signals)
+    //    zsys_handler_set (s_signal_handler);
+	if (handle_signals)
+		zsys_handler_set(s_signal_handler);
 }
 
 //  Default internal signal handler

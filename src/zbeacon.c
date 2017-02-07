@@ -151,49 +151,49 @@ s_self_prepare_udp (self_t *self)
     // the interface list
     else if (strlen (iface) == 1 && iface[0] >= '0' && iface[0] <= '9')
     {
-        int if_number = atoi (iface);
-        ziflist_t *iflist = ziflist_new_ipv6 ();
-        assert (iflist);
-        const char *name = ziflist_first (iflist);
-        int idx = -1;
-        while (name) {
-            idx++;
-            if (idx == if_number &&
-                    ((ziflist_is_ipv6 (iflist) && zsys_ipv6 ()) ||
-                            (!ziflist_is_ipv6 (iflist) && !zsys_ipv6 ()))) {
-                //  Using inet_addr instead of inet_aton or inet_atop
-                //  because these are not supported in Win XP
-                rc = getaddrinfo (ziflist_address (iflist), self->port_nbr,
-                        &hint, &bind_to);
-                assert (rc == 0);
-                rc = getaddrinfo (ziflist_broadcast (iflist), self->port_nbr,
-                        &hint, &send_to);
-                assert (rc == 0);
-                if_index = if_nametoindex (name);
+        //int if_number = atoi (iface);
+        //ziflist_t *iflist = ziflist_new_ipv6 ();
+        //assert (iflist);
+        //const char *name = ziflist_first (iflist);
+        //int idx = -1;
+        //while (name) {
+        //    idx++;
+        //    if (idx == if_number &&
+        //            ((ziflist_is_ipv6 (iflist) && zsys_ipv6 ()) ||
+        //                    (!ziflist_is_ipv6 (iflist) && !zsys_ipv6 ()))) {
+        //        //  Using inet_addr instead of inet_aton or inet_atop
+        //        //  because these are not supported in Win XP
+        //        rc = getaddrinfo (ziflist_address (iflist), self->port_nbr,
+        //                &hint, &bind_to);
+        //        assert (rc == 0);
+        //        rc = getaddrinfo (ziflist_broadcast (iflist), self->port_nbr,
+        //                &hint, &send_to);
+        //        assert (rc == 0);
+        //        if_index = if_nametoindex (name);
 
-                if (self->verbose)
-                    zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
-                            name, ziflist_address (iflist), ziflist_broadcast (iflist));
-                found_iface = 1;
-                break;      //  iface is known, so allow it
-            }
-            name = ziflist_next (iflist);
-        }
-        ziflist_destroy (&iflist);
+        //        if (self->verbose)
+        //            zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
+        //                    name, ziflist_address (iflist), ziflist_broadcast (iflist));
+        //        found_iface = 1;
+        //        break;      //  iface is known, so allow it
+        //    }
+        //    name = ziflist_next (iflist);
+        //}
+        //ziflist_destroy (&iflist);
     }
     else if (zsys_ipv6 () && strneq("", zsys_ipv6_address ()) && strneq (iface, "")) {
-        rc = getaddrinfo (zsys_ipv6_address (), self->port_nbr,
-                &hint, &bind_to);
-        assert (rc == 0);
-        rc = getaddrinfo (zsys_ipv6_mcast_address (), self->port_nbr,
-                &hint, &send_to);
-        assert (rc == 0);
-        if_index = if_nametoindex (iface);
+        //rc = getaddrinfo (zsys_ipv6_address (), self->port_nbr,
+        //        &hint, &bind_to);
+        //assert (rc == 0);
+        //rc = getaddrinfo (zsys_ipv6_mcast_address (), self->port_nbr,
+        //        &hint, &send_to);
+        //assert (rc == 0);
+        //if_index = if_nametoindex (iface);
 
-        if (self->verbose)
-            zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
-                    iface, zsys_ipv6_address (), zsys_ipv6_mcast_address ());
-        found_iface = 1;
+        //if (self->verbose)
+        //    zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
+        //            iface, zsys_ipv6_address (), zsys_ipv6_mcast_address ());
+        //found_iface = 1;
     }
     else {
         //  Look for matching interface, or first ziflist item
@@ -211,7 +211,7 @@ s_self_prepare_udp (self_t *self)
                 rc = getaddrinfo (ziflist_broadcast (iflist), self->port_nbr,
                         &hint, &send_to);
                 assert (rc == 0);
-                if_index = if_nametoindex (name);
+                //if_index = if_nametoindex (name);
 
                 if (self->verbose)
                     zsys_info ("zbeacon: interface=%s address=%s broadcast=%s",
